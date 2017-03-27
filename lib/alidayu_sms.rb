@@ -51,7 +51,7 @@ module AlidayuSms
     req_options[:sign] = sign(req_options)
 
     res = Net::HTTP.post_form(URI.parse(AlidayuSms.config.request_url), req_options)
-    puts res.body
+    return res
   end
 
   private

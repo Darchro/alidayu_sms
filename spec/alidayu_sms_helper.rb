@@ -4,9 +4,9 @@ require "active_support/all"
 describe "test send sms api" do
   before do
     AlidayuSms.configure do |config|
-      config.app_key = "23715176"
-      config.app_secret = "2ccddb42a86244f7daad882edc91bac9"
-      config.request_url = "http://gw.api.taobao.com/router/rest"
+      config.app_key = ""
+      config.app_secret = ""
+      config.request_url = ""
     end
   end
 

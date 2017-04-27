@@ -49,13 +49,40 @@ module AlidayuSms
 
     req_options = public_options.merge method_options
     req_options[:sign] = sign(req_options)
+    res = Net::HTTP.post_form(URI.parse(AlidayuSms.config.request_url), req_options)
+    return res
+  end
 
+  def query(options = {})
+    public_options = {
+      method: 'alibaba.aliqin.fc.sms.num.query',
+      app_key: AlidayuSms.config.app_key,
+      target_app_key: options[:target_app_key],
+      sign_method: options[:sign_method] || 'md5',
+      session: options[:session],
+      timestamp: Time.now.strftime("%F %H:%M:%S"),
+      format: options[:format] || 'json',
+      v: '2.0',
+      partner_id: options[:partner_id]
+    }
+
+    method_options = {
+      biz_id: options[:biz_id],
+      rec_num: options[:rec_num],
+      query_date: options[:query_date],
+      current_page: options[:current_page] || 1,
+      page_size: options[:page_size] || 10
+    }
+
+    req_options = public_options.merge method_options
+    req_options[:sign] = sign(req_options)
     res = Net::HTTP.post_form(URI.parse(AlidayuSms.config.request_url), req_options)
     return res
   end
 
   private
   def sign(options)
+    raise "AlidayuSms configuration is not set" unless (AlidayuSms.config.app_secret && AlidayuSms.config.app_id && AlidayuSms.config.request_url)
     sign_str = AlidayuSms.config.app_secret + options.delete_if{|key, val| val.nil? }.sort.join + AlidayuSms.config.app_secret
     Digest::MD5.hexdigest(sign_str).upcase
   end

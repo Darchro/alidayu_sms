@@ -27,9 +27,17 @@ AlidayuSms.configure do |config|
   config.request_url = :alidayu_api_url #["http://gw.api.taobao.com/router/rest", "https://eco.taobao.com/router/rest"]
 end
 
+# send api
 options = {"rec_num": "rec_num", "sms_template_code": "sms_template_code", "sms_param": "sms_params", "sms_free_sign_name": "sms_free_sign_name" }
 
 AlidayuSms.send(options)
+
+# query api
+# query_date is format yyyyMMdd
+# page_size if default 10, max 50
+options = {rec_num: 'rec_num', query_date: 'query_date', current_page: current_page, page_size: page_size}
+
+AlidayuSms.query(options)
 ```
 
 ## Contributing
